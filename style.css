@@ -156,13 +156,17 @@
   
   .form__input {
     width: 100%;
-    padding: 0.3rem 1.1rem;
+    padding: 0.3rem 0.5rem;
     font-family: inherit;
     font-size: 1.4rem;
     border: none;
     border-radius: 3px;
     background-color: var(--color-light--3);
     transition: all 0.2s;
+  }
+  .form__input--type {
+    font-size: 1.3rem;
+    padding-left: 0.3rem;
   }
   
   .form__input:focus {
