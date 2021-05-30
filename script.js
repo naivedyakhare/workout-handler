@@ -14,10 +14,10 @@ const moveToClick = document.querySelector('.workouts');
 // -- C O D E -- H E R E -- \\
 class App {
     currentCoords;
-    #map;
-    #mapZoom = 13;
-    #mapEvent;
-    #workouts = [];
+    map;
+    mapZoom = 13;
+    mapEvent;
+    workouts = [];
 
     constructor() {
         form.reset();
@@ -46,21 +46,21 @@ class App {
         const {latitude, longitude} = position.coords;   
         this.currentCoords = [latitude, longitude];
         
-        this.#map = L.map('map').setView(this.currentCoords , this.#mapZoom);
+        this.map = L.map('map').setView(this.currentCoords , this.mapZoom);
         
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(this.#map);
+        }).addTo(this.map);
 
         //EVENTS AFTER MAP LOADS
-        this.#map.on('click', this._showForm.bind(this))
+        this.map.on('click', this._showForm.bind(this))
 
         //ADDING MARKER FROM LOCAL STORAGE
-        this.#workouts.forEach(work => {
+        this.workouts.forEach(work => {
             this._addMarkerToMap(work);
         })
 
-        if(this.#workouts.length == 0)
+        if(this.workouts.length == 0)
             this._showForm(
                 {latlng: {
                     lat: this.currentCoords[0],
@@ -70,7 +70,7 @@ class App {
     }
     
     _showForm(mapE) {
-        this.#mapEvent = mapE;
+        this.mapEvent = mapE;
         form.classList.remove('hidden');
         inputDistance.focus();
     }
@@ -88,7 +88,7 @@ class App {
         const positiveNumber = (...inputs) => inputs.every(inp => inp > 0);
         
         //Getting coordinates
-        const {lat: latitude, lng: longitude} = this.#mapEvent.latlng;
+        const {lat: latitude, lng: longitude} = this.mapEvent.latlng;
 
         //Get the info from input fields
         const distance = +inputDistance.value;
@@ -117,7 +117,7 @@ class App {
 
         //Displaying marker on Map
         this._addMarkerToMap(workout);
-        this.#workouts.push(workout); //Adding workout on the Map
+        this.workouts.push(workout); //Adding workout on the Map
 
         //render that workout on map
         this._renderWorkout(workout);
@@ -135,7 +135,7 @@ class App {
     }
 
     _addMarkerToMap(workout) {
-        L.marker(workout.coords).addTo(this.#map)
+        L.marker(workout.coords).addTo(this.map)
         .bindPopup(L.popup({
             autoClose: false,
             closeOnClick: false,
@@ -195,8 +195,8 @@ class App {
         const workoutTarget = e.target.closest('.workout'); 
         if(workoutTarget == form || !workoutTarget) return;
 
-        const work = this.#workouts.find( wrk => workoutTarget.dataset.id == wrk.ID)
-        this.#map.setView(work.coords, this.#mapZoom, {
+        const work = this.workouts.find( wrk => workoutTarget.dataset.id == wrk.ID)
+        this.map.setView(work.coords, this.mapZoom, {
             animate: true,
             pan: {
                 duration: 1,
@@ -206,15 +206,15 @@ class App {
     }
 
     _setLocalStorage() {
-        localStorage.setItem('workouts', JSON.stringify(this.#workouts));
+        localStorage.setItem('workouts', JSON.stringify(this.workouts));
     }
 
     _getLocalStorage() {
         const data = JSON.parse(localStorage.getItem('workouts'));
         if(!data) return;
-        this.#workouts = data;
+        this.workouts = data;
 
-        this.#workouts.forEach(work => {
+        this.workouts.forEach(work => {
             this._renderWorkout(work);
         })
     }
