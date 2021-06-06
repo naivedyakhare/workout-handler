@@ -23,7 +23,7 @@
   body {
     font-family: 'Manrope', sans-serif;
     color: var(--color-light--2);
-    font-weight: 400;
+    font-weight: 400; 
     line-height: 1.6;
     height: 100vh;
     overscroll-behavior-y: none;
@@ -75,10 +75,11 @@
     padding: 1.5rem 2.25rem;
     margin-bottom: 1.75rem;
     cursor: pointer;
-  
+    position: relative;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     gap: 0.75rem 1.5rem;
+    transition-duration: 1s;
   }
   .workout--running {
     border-left: 5px solid var(--color-brand--2);
@@ -86,13 +87,51 @@
   .workout--cycling {
     border-left: 5px solid var(--color-brand--1);
   }
-  
+  .deleted {
+    transform: translateX(110%);
+  }
+
   .workout__title {
     font-size: 1.7rem;
     font-weight: 600;
-    grid-column: 1 / -1;
+    grid-column: 1 / -2;
   }
-  
+  .workout__menu--button {
+    background-color: transparent;
+    border: none;  
+    width: min-content;
+    justify-self: center;
+    align-self: flex-start;
+    font-size: 1.6rem;
+    cursor: pointer;
+    color: white
+  }
+  .workout__menu {
+    width: auto;
+    position: absolute;
+    right: 10px;
+    top: 40px;
+    background-color: white;
+    list-style-type: none;
+    font-size: 1.3rem;
+    border-radius: 5px;
+    transform: scale(1);
+    transition: all 200ms;
+    transform-origin: center top;
+    color: rgb(75, 75, 75);
+    font-weight: bold;
+  }
+  .workout__menu li {
+    padding: 5px;
+    transition: 500ms;
+    border-radius: inherit;
+  }
+  .workout__menu li:hover {
+    background-color: rgb(230, 230, 230);
+  }
+  .workout__menu.hidden {
+    transform: scale(0);
+  }
   .workout__details {
     display: flex;
     align-items: baseline;
@@ -156,17 +195,13 @@
   
   .form__input {
     width: 100%;
-    padding: 0.3rem 0.5rem;
+    padding: 0.3rem 1.1rem;
     font-family: inherit;
     font-size: 1.4rem;
     border: none;
     border-radius: 3px;
     background-color: var(--color-light--3);
     transition: all 0.2s;
-  }
-  .form__input--type {
-    font-size: 1.3rem;
-    padding-left: 0.3rem;
   }
   
   .form__input:focus {
